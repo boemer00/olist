@@ -5,7 +5,7 @@
 ## About Olist:
 [Olist](https://olist.com/) is a leading e-commerce service that connects merchants to main marketplaces in Brazil. They provide a wide range of offers including inventory management, dealing with reviews and customer contacts to logistic services. Olist charges sellers a monthly fee. This fee is progressive with the volume of orders.
 
-## Objectives
+## Objective
 To analyse Olist's dataset and answer the following question:
 "How to increase customer satisfaction (so as to increase profit margin) while maintaining a healthy order volume?"
 
