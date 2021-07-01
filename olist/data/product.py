@@ -7,7 +7,7 @@ from olist.order import Order
 class Product:
 
     def __init__(self):
-        # Import data only once
+        # import data only once
         olist = Olist()
         self.data = olist.get_data()
         self.matching_table = olist.get_matching_table()
@@ -23,7 +23,7 @@ class Product:
 
         products = self.data['products']
 
-        # (optional) convert name to English
+        # convert name to English (as olist is a Brazilian website)
         en_category = self.data['product_category_name_translation']
         df = products.merge(en_category, on='product_category_name')
         df.drop(['product_category_name'], axis=1, inplace=True)
@@ -32,16 +32,16 @@ class Product:
                   'product_description_lenght': 'product_description_length'},
                   inplace=True)
 
-
         return df
 
     def get_price(self):
         """
         Return a DataFrame with:
         'product_id', 'price'
+        There are many order_items per product_id, each with different prices. Returns teh mean.
         """
         order_items = self.data['order_items']
-        # There are many different order_items per product_id, each with different prices. Take the mean of various prices
+        
         return order_items[['product_id', 'price']].groupby('product_id').mean()
 
     def get_wait_time(self):
@@ -53,7 +53,7 @@ class Product:
         orders_wait_time = self.order.get_wait_time()
 
         df = matching_table.merge(orders_wait_time,
-                                 on='order_id')
+                                  on='order_id')
 
         return df.groupby('product_id',
                           as_index=False).agg({'wait_time': 'mean'})
@@ -67,8 +67,8 @@ class Product:
         matching_table = self.matching_table
         orders_reviews = self.order.get_review_score()
 
-        # Since the same products can appear multiple times in the same
-        # order, create a product <> order matching table
+        # because the same product appears multiple times in the same order
+        # create a product-order matching table
 
         matching_table = matching_table[['order_id',
                                          'product_id']].drop_duplicates()

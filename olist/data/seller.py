@@ -7,7 +7,7 @@ from olist.order import Order
 class Seller:
 
     def __init__(self):
-        # Import data only once
+        # import data only once
         olist = Olist()
         self.data = olist.get_data()
         self.matching_table = olist.get_matching_table()
@@ -18,11 +18,10 @@ class Seller:
         Returns a DataFrame with:
         'seller_id', 'seller_city', 'seller_state'
         """
-        # Make a copy before using inplace=True so as to avoid modifying
+        # make a copy before using inplace=True so as to avoid modifying
         # self.data
         sellers = self.data['sellers'].copy()
         sellers.drop('seller_zip_code_prefix', axis=1, inplace=True)
-        # There are multiple rows per seller
         sellers.drop_duplicates(inplace=True)
         return sellers
 
@@ -31,13 +30,13 @@ class Seller:
         Returns a DataFrame with:
         'seller_id', 'delay_to_carrier', 'wait_time'
         """
-        # Get data
+        # get data
         order_items = self.data['order_items'].copy()
         orders = self.data['orders'].query("order_status=='delivered'").copy()
 
         ship = order_items.merge(orders, on='order_id')
 
-        # Handle datetime
+        # handle datetime
         ship.loc[:, 'shipping_limit_date'] = pd.to_datetime(
             ship['shipping_limit_date'])
         ship.loc[:, 'order_delivered_carrier_date'] = pd.to_datetime(
@@ -47,7 +46,7 @@ class Seller:
         ship.loc[:, 'order_purchase_timestamp'] = pd.to_datetime(
             ship['order_purchase_timestamp'])
 
-        # Compute delay and wait_time
+        # compute delay and wait_time
         def handle_early_dropoff(x):
             if x < 0:
                 return abs(x)
@@ -104,8 +103,8 @@ class Seller:
         Returns a DataFrame with:
         'seller_id', 'share_of_five_stars', 'share_of_one_stars', 'review_score'
         """
-        # Since the same seller can appear multiple times in the same order,
-        # create a (seller <> order) matching table
+        # the same seller can appear multiple times in the same order,
+        # create a seller-order matching table
         # get and merge data
         matching_table = self.matching_table
         orders_reviews = self.order.get_review_score()
@@ -167,19 +166,12 @@ class Seller:
         'seller_review_score', 'n_orders', 'quantity,' 'date_first_sale',
         'date_last_sale', 'sales'
         """
-
         training_set =\
             self.get_seller_features()\
-                .merge(
-                self.get_seller_delay_wait_time(), on='seller_id'
-               ).merge(
-                self.get_active_dates(), on='seller_id'
-               ).merge(
-                self.get_review_score(), on='seller_id'
-               ).merge(
-                self.get_quantity(), on='seller_id'
-               ).merge(
-                self.get_sales(), on='seller_id'
-               )
+                .merge(self.get_seller_delay_wait_time(), on='seller_id')\
+                .merge(self.get_active_dates(), on='seller_id')\
+                .merge(self.get_review_score(), on='seller_id')\
+                .merge(self.get_quantity(), on='seller_id')\
+                .merge(self.get_sales(), on='seller_id')
 
         return training_set

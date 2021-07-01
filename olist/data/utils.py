@@ -17,14 +17,13 @@ def haversine_distance(lon1, lat1, lon2, lat2):
 
 def return_significative_coef(model):
     """
-    Returns p_value, lower and upper bound coefficients
-    from a statsmodels object.
+    Returns p_value, lower and upper bound coefficients from a statsmodels object.
     """
-    # Extract p_values
+    # extract p_values
     p_values = model.pvalues.reset_index()
     p_values.columns = ['variable', 'p_value']
 
-    # Extract coef_int
+    # extract coef_int
     coef = model.params.reset_index()
     coef.columns = ['variable', 'coef']
     return p_values.merge(coef,
@@ -34,8 +33,7 @@ def return_significative_coef(model):
 
 def plot_kde_plot(df, variable, dimension):
     """
-    Plot a side by side kdeplot for `variable`, split
-    by `dimension`.
+    Plot a side by side kdeplot for `variable`, split by `dimension`.
     """
     g = sns.FacetGrid(df,
                       hue=dimension,
