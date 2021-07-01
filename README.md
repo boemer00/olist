@@ -5,6 +5,13 @@
 ## About Olist:
 [Olist](https://olist.com/) is a leading e-commerce service that connects merchants to main marketplaces in Brazil. They provide a wide range of offers including inventory management, dealing with reviews and customer contacts to logistic services. Olist charges sellers a monthly fee. This fee is progressive with the volume of orders.
 
+## Objectives
+To analyse Olist's dataset and answer the following question:
+"How to increase customer satisfaction (so as to increase profit margin) while maintaining a healthy order volume?"
+
+
+------------------------------------
+
 Here are the seller and customer workflows:
 
 ## Seller:
@@ -25,6 +32,7 @@ Leaves a review about the order
 ## Dataset
 The dataset consists of 100k orders from 2016 and 2018 that were made on the Olist store, available as a csv on [Kaggle](https://www.kaggle.com/olistbr/brazilian-ecommerce).
 
-## Objectives
-To analyse Olist's dataset and answer the following question:
-"How to increase customer satisfaction (so as to increase profit margin) while maintaining a healthy order volume?"
+## Engineering
+This scheme shows how the dataset was organised and linked so as to improve feature engineering and analysis.
+
+![](/data_model_olist.png)
