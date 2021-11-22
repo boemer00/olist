@@ -43,4 +43,4 @@ This scheme shows how the dataset was organised and linked so as to improve feat
 
 ![](/data_model_olist.png)
 
-NB: work in progress
+NB: work in progress.
